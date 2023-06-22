@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -21,6 +20,7 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
+  bool _isLoading = false;
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -41,16 +41,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 },
               ),
               SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
-                child: const Text('Choose from gallery'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(ImageSource.gallery);
-                  setState(() {
-                    _file = file;
-                  });
-                },
-              ),
+                  padding: const EdgeInsets.all(20),
+                  child: const Text('Choose from Gallery'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    Uint8List file = await pickImage(ImageSource.gallery);
+                    setState(() {
+                      _file = file;
+                    });
+                  }),
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
                 child: const Text("Cancel"),
@@ -68,18 +67,35 @@ class _AddPostScreenState extends State<AddPostScreen> {
     String username,
     String profImage,
   ) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       String res = await FirestoreMethods().uploadPost(
           _descriptionController.text, _file!, uid, username, profImage);
 
       if (res == "success") {
+        setState(() {
+          _isLoading = false;
+        });
         showSnackBar('Posted!', context);
+        clearImage();
       } else {
+        setState(() {
+          _isLoading = false;
+        });
+
         showSnackBar(res, context);
       }
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
+  }
+
+  void clearImage() {
+    setState(() {
+      _file = null;
+    });
   }
 
   @override
@@ -92,6 +108,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   @override
   Widget build(BuildContext context) {
     final User? user = Provider.of<UserProvider>(context).getUser;
+
     return user == null
         ? const Center(
             child: CircularProgressIndicator(),
@@ -108,14 +125,17 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   backgroundColor: mobileBackgroundColor,
                   leading: IconButton(
                     icon: const Icon(Icons.arrow_back),
-                    onPressed: () {},
+                    onPressed: clearImage,
                   ),
                   title: const Text("Post to"),
                   centerTitle: false,
                   actions: [
                     TextButton(
-                        onPressed: () =>
-                            postImage(user.uid, user.username, user.photoUrl),
+                        onPressed: () => postImage(
+                              user.uid,
+                              user.username,
+                              user.photoUrl,
+                            ),
                         child: const Text(
                           'Post',
                           style: TextStyle(
@@ -128,6 +148,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 ),
                 body: Column(
                   children: [
+                    _isLoading
+                        ? const LinearProgressIndicator()
+                        : const Padding(
+                            padding: EdgeInsets.only(top: 0),
+                          ),
+                    const Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,

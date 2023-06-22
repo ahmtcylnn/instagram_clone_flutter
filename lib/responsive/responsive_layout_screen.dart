@@ -17,17 +17,17 @@ class ResponsiveLayout extends StatefulWidget {
 }
 
 class _ResponsiveLayoutState extends State<ResponsiveLayout> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   addData();
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addData();
+  }
 
-  // addData() async {
-  //   UserProvider _userProvider = Provider.of(context, listen: false);
-  //   await _userProvider.refreshUser();
-  // }
+  addData() async {
+    UserProvider _userProvider = Provider.of(context, listen: false);
+    await _userProvider.refreshUser();
+  }
 
   @override
   Widget build(BuildContext context) {
