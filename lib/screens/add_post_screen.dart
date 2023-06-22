@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_flutter/providers/user_provider.dart';
+import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
 import 'package:instagram_clone_flutter/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +63,32 @@ class _AddPostScreenState extends State<AddPostScreen> {
         });
   }
 
+  void postImage(
+    String uid,
+    String username,
+    String profImage,
+  ) async {
+    try {
+      String res = await FirestoreMethods().uploadPost(
+          _descriptionController.text, _file!, uid, username, profImage);
+
+      if (res == "success") {
+        showSnackBar('Posted!', context);
+      } else {
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _descriptionController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final User? user = Provider.of<UserProvider>(context).getUser;
@@ -87,7 +114,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   centerTitle: false,
                   actions: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () =>
+                            postImage(user.uid, user.username, user.photoUrl),
                         child: const Text(
                           'Post',
                           style: TextStyle(
