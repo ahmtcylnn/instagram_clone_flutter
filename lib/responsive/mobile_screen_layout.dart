@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_flutter/screens/login_screen.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
 import 'package:instagram_clone_flutter/utils/global_variables.dart';
 
@@ -39,6 +40,12 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       _page = page;
     });
   }
+
+  @override
+
+  // Widget build(BuildContext context) {
+  //   return LoginScreen() ;
+  // }
 
   @override
   Widget build(BuildContext context) {
