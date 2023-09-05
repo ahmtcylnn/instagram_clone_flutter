@@ -26,6 +26,12 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
+// def keyProperties = new Properties()
+// def keyPropertiesFile = rootProject.file('key.properties')
+// if(keyPropertiesFile.exists()){
+//     keyProperties.load(new FileInputStream(keyPropertiesFile))
+// }
+
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -54,6 +60,14 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
     }
+    // signingConfigs{
+    //     release{
+    //         keyAlias keyProperties['keyAlias']
+    //         keyPassword keyProperties['keyPassword']
+    //         storeFile file(keyProperties['storeFile'])
+    //         storePassword keyProperties['storePassword']
+    //     }
+    // }
 
     buildTypes {
         release {

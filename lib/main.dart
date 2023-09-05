@@ -7,6 +7,7 @@ import 'package:instagram_clone_flutter/providers/user_provider.dart';
 import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
 import 'package:instagram_clone_flutter/responsive/responsive_layout_screen.dart';
 import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
+import 'package:instagram_clone_flutter/screens/feed_screen.dart';
 import 'package:instagram_clone_flutter/screens/login_screen.dart';
 import 'package:instagram_clone_flutter/screens/signup_screen.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
                 ),
               );
             }
-            return const LoginScreen();
+            // return const LoginScreen();
+            return const FeedScreen();
           },
         ),
       ),
