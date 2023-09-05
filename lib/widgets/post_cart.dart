@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_flutter/providers/user_provider.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
+import 'package:instagram_clone_flutter/widgets/like_animations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user.dart';
 
 class PostCart extends StatelessWidget {
   final snap;
@@ -8,6 +13,7 @@ class PostCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? user = Provider.of<UserProvider>(context).getUser;
     return Container(
       color: mobileBackgroundColor,
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -78,12 +84,15 @@ class PostCart extends StatelessWidget {
           ),
           Row(
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  )),
+              LikeAnimation(
+                isAnimating: snap['likes'].contains(user!.uid),
+                child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    )),
+              ),
               IconButton(
                   onPressed: () {},
                   icon: const Icon(
@@ -145,9 +154,9 @@ class PostCart extends StatelessWidget {
                     onTap: () {},
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Text(
+                      child: const Text(
                         'View all 200 comments',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           color: secondaryColor,
                         ),
