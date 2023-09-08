@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_flutter/providers/user_provider.dart';
 import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
+import 'package:instagram_clone_flutter/screens/comments_screen.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
 import 'package:instagram_clone_flutter/widgets/like_animations.dart';
 import 'package:intl/intl.dart';
@@ -90,11 +91,6 @@ class _PostCartState extends State<PostCart> {
                             duration: const Duration(milliseconds: 200),
                             opacity: isLikeAnimating ? 1 : 0,
                             child: LikeAnimation(
-                              child: const Icon(
-                                Icons.favorite,
-                                size: 100,
-                                color: Colors.white,
-                              ),
                               isAnimating: isLikeAnimating,
                               duration: const Duration(
                                 milliseconds: 400,
@@ -104,6 +100,11 @@ class _PostCartState extends State<PostCart> {
                                   isLikeAnimating = false;
                                 });
                               },
+                              child: const Icon(
+                                Icons.favorite,
+                                size: 100,
+                                color: Colors.white,
+                              ),
                             ),
                           )
                         ],
@@ -135,7 +136,9 @@ class _PostCartState extends State<PostCart> {
                                     )),
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => CommentsScreen())),
                             icon: const Icon(
                               Icons.comment_outlined,
                             )),
