@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user.dart';
+import '../providers/user_provider.dart';
 
 class CommentCard extends StatefulWidget {
   const CommentCard({super.key});
@@ -28,16 +32,16 @@ class _CommentCardState extends State<CommentCard> {
                 children: [
                   RichText(
                       text: TextSpan(children: [
-                    TextSpan(
+                    const TextSpan(
                         text: 'username',
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const TextSpan(
                       text: 'some description to insert',
                     )
                   ])),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: const Text(
+                  const Padding(
+                    padding: EdgeInsets.only(top: 4.0),
+                    child: Text(
                       '23/12/21',
                       style: TextStyle(fontWeight: FontWeight.w400),
                     ),

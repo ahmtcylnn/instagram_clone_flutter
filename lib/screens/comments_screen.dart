@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
+import 'package:instagram_clone_flutter/utils/icons_const_values.dart';
+import 'package:provider/provider.dart';
 
+import '../models/user.dart';
+import '../providers/user_provider.dart';
 import '../widgets/comment_card.dart';
 
 class CommentsScreen extends StatefulWidget {
@@ -13,6 +17,7 @@ class CommentsScreen extends StatefulWidget {
 class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
+    final User? user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -28,17 +33,21 @@ class _CommentsScreenState extends State<CommentsScreen> {
           padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(
             children: [
-              const CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1688510760047-a78e0a375950?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80'),
-                radius: 18,
-              ),
-              const Expanded(
+              user == null
+                  ? const CircleAvatar(
+                      backgroundImage: AssetImage(tempProfilePhoto),
+                      radius: 18,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: NetworkImage(user.photoUrl),
+                      radius: 18,
+                    ),
+              Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(right: 8.0, left: 16),
                   child: TextField(
                     decoration: InputDecoration(
-                        hintText: 'Comment as username',
+                        hintText: 'Comment as ${user!.username}',
                         border: InputBorder.none),
                   ),
                 ),
